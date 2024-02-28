@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:health/health.dart';
+
+enum AppState {
+  DATA_NOT_FETCHED,
+  FETCHING_DATA,
+  DATA_READY,
+  NO_DATA,
+  AUTH_NOT_GRANTED,
+}
+
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -21,7 +31,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends ConsumerWidget {
+class MyHomePage extends HookConsumerWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
