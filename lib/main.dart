@@ -10,14 +10,6 @@ void main() {
   );
 }
 
-final counterProvider = StateNotifierProvider<Counter, int>((_) => Counter());
-
-class Counter extends StateNotifier<int> {
-  Counter() : super(0);
-
-  void increment() => state++;
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -31,7 +23,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends HookConsumerWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,25 +31,75 @@ class MyHomePage extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text('3Dモデリングテスト'),
       ),
-      body: Center(
-        child: Stack(
-          alignment: Alignment.center,
+      body: const Stack(
+        alignment: Alignment.center,
+        children: [
+          ModelViewer(
+            src: 'images/BestID5.glb', // 3Dモデルファイルのパス
+            ar: true,
+            autoRotate: true,
+            cameraControls: true,
+          ),
+          AnimatedOverlay(),
+        ],
+      ),
+    );
+  }
+}
+
+class AnimatedOverlay extends StatefulWidget {
+  const AnimatedOverlay({super.key});
+
+  @override
+  _AnimatedOverlayState createState() => _AnimatedOverlayState();
+}
+
+class _AnimatedOverlayState extends State<AnimatedOverlay>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..repeat(reverse: true);
+    _animation = Tween<double>(begin: 0, end: 200).animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      bottom: _animation.value,
+      right: 20,
+      child: IgnorePointer(
+        child: Column(
           children: [
-            const ModelViewer(
-              src: 'images/BestID5.glb', // 3Dモデルファイルのパス
-              alt: 'A 3D model',
-              ar: true,
-              autoRotate: true,
-              cameraControls: true,
+            Image.asset(
+              'images/ar1.png',
+              width: 100,
+              height: 100,
             ),
-            Positioned(
-              bottom: 20,
-              right: 20,
-              child: Image.asset(
-                'images/ar1.png', // PNG画像ファイルのパス
-                width: 100,
-                height: 100,
-              ),
+            Image.asset(
+              'images/ar2.png',
+              width: 100,
+              height: 100,
+            ),
+            Image.asset(
+              'images/ar6.png',
+              width: 100,
+              height: 100,
             ),
           ],
         ),
