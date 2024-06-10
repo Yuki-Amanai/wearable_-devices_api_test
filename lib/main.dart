@@ -37,8 +37,11 @@ class MyHomePage extends HookConsumerWidget {
           ModelViewer(
             src: 'images/BestID5.glb', // 3Dモデルファイルのパス
             ar: true,
-            autoRotate: true,
+            autoRotate: false,
             cameraControls: true,
+            // cameraOrbit: '0deg 75deg 2.5m', // 初期のカメラ位置
+            minCameraOrbit: 'auto 75deg auto', // 最小のカメラオービット
+            maxCameraOrbit: 'auto 75deg auto', // 最大のカメラオービット
           ),
           AnimatedOverlay(),
         ],
