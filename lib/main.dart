@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 
@@ -36,8 +37,7 @@ class MyHomePage extends HookConsumerWidget {
         children: [
           ModelViewer(
             src: 'images/BestID5.glb', // 3Dモデルファイルのパス
-            ar: true,
-            autoRotate: false,
+            autoRotate: true,
             cameraControls: true,
             // cameraOrbit: '0deg 75deg 2.5m', // 初期のカメラ位置
             minCameraOrbit: 'auto 75deg auto', // 最小のカメラオービット
@@ -85,7 +85,8 @@ class _AnimatedOverlayState extends State<AnimatedOverlay>
   Widget build(BuildContext context) {
     return Positioned(
       bottom: _animation.value,
-      right: 20,
+      right: 0,
+      left: 0,
       child: IgnorePointer(
         child: Column(
           children: [
